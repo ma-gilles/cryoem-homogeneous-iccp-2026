@@ -230,14 +230,14 @@ def load_empiar10028_particles(
 def load_empiar10028_reference_map(
     data_dir=".",
     out_size=128,
-    out_path="empiar10028_published_reconstruction_128.mrc",
+    out_path=None,
 ):
     from skimage.transform import resize
 
     data_dir = Path(data_dir)
-    map_path = data_dir / "emd_2660.map.gz"
+    map_path = data_dir / "empiar10028_cryosparc_reference_128.mrc"
     if not map_path.exists():
-        map_path = Path("empiar10028_subsampled") / "emd_2660.map.gz"
+        map_path = Path("empiar10028_subsampled") / "empiar10028_cryosparc_reference_128.mrc"
     if not map_path.exists():
         raise FileNotFoundError(f"Could not find {map_path}")
 
@@ -259,6 +259,9 @@ def load_empiar10028_reference_map(
         ).astype(np.float32)
         voxel_size = voxel_size * original_size / out_size
 
-    save_mrc(out_path, volume, voxel_size)
-    print(f"Saved {out_path} with voxel size {voxel_size:.3f} A")
+    if out_path is not None:
+        save_mrc(out_path, volume, voxel_size)
+        print(f"Saved {out_path} with voxel size {voxel_size:.3f} A")
+    else:
+        print(f"Loaded {map_path} with voxel size {voxel_size:.3f} A")
     return volume, voxel_size
