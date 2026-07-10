@@ -133,9 +133,11 @@ def slice(volume_ft, rotations):
     return slices[0] if len(slices) == 1 else slices
 
 
-def backproject(slices_ft, rotations, n):
+def backproject(slices_ft, rotations, n=None):
     slices_ft = np.asarray(slices_ft)
     rotations = np.asarray(rotations, dtype=np.float32)
+    if n is None:
+        n = slices_ft.shape[-1]
     if slices_ft.ndim == 2:
         slices_ft = slices_ft[None]
     if rotations.ndim == 2:
