@@ -184,7 +184,7 @@ def make_synthetic_dataset(volume_ft, n_images, voxel_size, seed=2):
     images = []
     for clean, ctf in zip(clean_ft, ctfs):
         filtered = np.fft.ifftshift(np.fft.ifft2(np.fft.ifftshift(clean * ctf))).real
-        images.append(filtered + rng.normal(scale=0.35 * np.std(filtered), size=filtered.shape))
+        images.append(filtered + rng.normal(scale=0.70 * np.std(filtered), size=filtered.shape))
     return np.asarray(images, dtype=np.float32), rotations, ctfs, clean_ft.astype(np.complex64)
 
 
