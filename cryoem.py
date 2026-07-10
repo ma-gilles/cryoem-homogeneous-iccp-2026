@@ -244,6 +244,8 @@ def load_empiar10028_reference_map(
     with mrcfile.open(map_path, permissive=True) as mrc:
         volume = np.asarray(mrc.data, dtype=np.float32)
         voxel_size = float(mrc.voxel_size.x)
+    if volume.ndim == 3 and np.isclose(volume.shape, volume.shape[0]).all():
+        volume = np.transpose(volume, (2, 1, 0))
 
     if volume.shape != (out_size, out_size, out_size):
         original_size = volume.shape[0]
